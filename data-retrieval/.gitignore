@@ -1,7 +1,8 @@
 .env
 firebase-key.json
 
-.sav
+finalized_model.sav
+vectorizer.sav
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

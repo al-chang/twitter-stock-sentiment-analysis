@@ -63,12 +63,16 @@ def update_stock_data(stock_ticker):
     add_stock_sentiment_entry(stock_ticker, num_pos, total)
 
 
-def do_something(sc: sched.scheduler):
+def perform_tweet_analysis(sc: sched.scheduler):
     for stock_ticker in STOCKS:
         update_stock_data(stock_ticker)
 
-    sc.enter(3600, 1, do_something, (sc,))
+    sc.enter(time_to_seconds(hours=6), 1, perform_tweet_analysis, (sc,))
 
 
-s.enter(0, 1, do_something, (s,))
+def time_to_seconds(hours, minutes, seconds):
+    return hours * 60 * 60 + minutes * 60 + seconds
+
+
+s.enter(0, 1, perform_tweet_analysis, (s,))
 s.run()
