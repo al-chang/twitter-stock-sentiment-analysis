@@ -1,4 +1,3 @@
-from venv import create
 from flask import Flask
 from dotenv import load_dotenv
 import firebase_admin
