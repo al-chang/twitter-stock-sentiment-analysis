@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from dotenv import load_dotenv
 import firebase_admin
 from firebase_admin import db
@@ -6,6 +7,7 @@ from utils import create_error
 import os
 
 app = Flask(__name__)
+CORS(app, resources={"*": {"origins": "*"}})
 load_dotenv()
 
 # Set up firebase connection
@@ -41,7 +43,9 @@ def get_available_stocks():
     if data is None:
         return create_error("Error retrieving data")
 
-    return data
+    keys = list(data.keys())
+
+    return {"stocks": keys}
 
 
 @app.route("/stocks/<stock_ticker>")
@@ -52,4 +56,6 @@ def get_stock_data(stock_ticker):
     if data is None:
         return create_error(f"No data found for {stock_ticker}", status=404)
 
-    return data
+    info = list(data.values())
+
+    return {"stockSentimentData": info}
